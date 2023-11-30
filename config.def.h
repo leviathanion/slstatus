@@ -67,12 +67,16 @@ static const struct arg args[] = {
 	/* function          format          argument */
     { cpu_perc,          "󰻠 %s%% |",       NULL    },
     { ram_perc,          "󰍛 %s%% |",       NULL    },
-    { run_command,       " %s |",         "amixer get Master | grep -o '[0-9]*%' | head -n 1" },
+/*  { run_command,       " %s |",         "amixer get Master | grep -o '[0-9]*%' | head -n 1" },
     { run_command,       " %s |",         "amixer get Capture| grep -o '[0-9]*%' | head -n 1" },
+*/
+    { run_command,       " %s |",         "amixer get Master | awk -F'[][]' '/Front Left:/ {if ($4==\"off\") print \"Muted\"; else print $2;}'" },
+    { run_command,       " %s |",         "amixer get Capture| awk -F'[][]' '/Front Left:/ {if ($4==\"off\") print \"Muted\"; else print $2;}'" },
+    { run_command,       " %s%% |",       "light -G | awk '{printf(\"%d\\n\", $1)}' "},
     { wifi_essid,        " %s |",         "wlan0" },
     { run_command,       " %s |",         "bluetoothctl info | awk '/Name: /{name=$2} /Connected: yes/{print name; exit} END{if (!name) print \"None\"}'"},
     { datetime,          " %s |",         "%F %T" },
-    { battery_state,     "  %s",             "BAT1"},
+    { battery_state,     "  %s",          "BAT1"},
     { battery_perc,      "%s%%",           "BAT1"},
-    { battery_remaining, "%s |",            "BAT1"},
+    { battery_remaining, "%s |",           "BAT1"},
 };
